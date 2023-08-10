@@ -16,7 +16,7 @@ const router = Router();
 /* 6.Metodo HTTP Post */ //pasamos a crear el controlador
 router.post("/login",[ //13.Agregamos el check 
     check('email','Email is required').isEmail(), //14. 'email'= debe estar en la base de datos como llave  
-    check('passoword','Password is required').not().isEmpty(),//15. 'check al password, 'password'= debe estar en la base de datos //vamos al controlador 
+    check('password','Password is required').not().isEmpty(),//15. 'check al password, 'password'= debe estar en la base de datos //vamos al controlador 
     validateDocuments //16.Lo llamamos para que funcione el check
 ], login );
 

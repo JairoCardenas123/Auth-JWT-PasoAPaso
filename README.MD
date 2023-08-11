@@ -1,3 +1,10 @@
+EL AUTHENTICATION EMPIEZA EL PASO A PASO [FILE:server.js] [CARPETA:models] //FUNCIONAL
+
+
+----------------------------------------------------------------------------------
+EL JWT EMPIEZA EL PASO A PASO [FILE:generate.JWT.js] [CARPETA:helpers] //FUNCIONAL
+----------------------------------------------------------------------------------
+
 AUTHENTICATION
 
 localhost:8004/api/auth/login

@@ -11,6 +11,7 @@ class Server {
         this.port = process.env.PORT
 
         this.paths = {
+            /* AUTHENTICATION PASO A PASO */
             /* 1.paso Auth */
             auth:       '/api/auth',
 

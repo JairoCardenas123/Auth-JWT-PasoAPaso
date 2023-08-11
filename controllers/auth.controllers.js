@@ -1,29 +1,31 @@
 /* 7.Importamos response de express */
 const {response} = require('express');
 const Usuario = require('../models/Usuario.js');
-const bcryptjs = require('bcryptjs')
+const bcryptjs = require('bcryptjs');
+const { generateJWT } = require('../helpers/generate.JWT.js');
 
 /* 8.Creamos la funcioon login  */
 const login = async (req, res=response)=>{ //agregamos el res=response
         const {email,password} = req.body; //17. destructuramos
         try {
             //18. Verificar si existe el email en la base de datos
-            const emailExiste = await Usuario.findOne({email}) 
-            if(!emailExiste){
+            const usuario = await Usuario.findOne({email}) 
+            if(!usuario){
                 return res.status(400).json({
                     msg:"Email no existe"
                 })
             }
             //19.Verificar si el usuario esta activo
-            if(!emailExiste.estado){
+            if(!usuario.estado){
                 return res.status(400).json({
                     msg:"el Usuario no esta activo"
                 })
             } 
 
-            //20.Verificar si el password es correcto y coincide con la base de datos
+            //20.Verificar si el password es correcto y coincide con la base de datos //FIN AUTHENTICATION
 
-            const passwordValido = bcryptjs.compareSync(password,emailExiste.password);
+
+            const passwordValido = bcryptjs.compareSync(password, usuario.password);
 
             if(!passwordValido){
                 return res.status(400).json({
@@ -31,8 +33,12 @@ const login = async (req, res=response)=>{ //agregamos el res=response
                 })
             }
 
+            //9.Validacion JSONWEBTOKEN (8.viene de generate.JWT.js)
+            const token = await generateJWT(usuario.id)
+
             res.json({
-                msg:"All good duuuuuude"
+                usuario,
+                token
             })
         } catch (error) {
             console.log(error);

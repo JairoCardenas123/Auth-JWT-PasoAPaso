@@ -1,5 +1,8 @@
 EL AUTHENTICATION EMPIEZA EL PASO A PASO [FILE:server.js] [CARPETA:models] //FUNCIONAL
 
+PROTEGER RUTAS CON JWT (VALIDACIONES Y RELACIONES) PASO A PASO [FILE:usuario.controllers] [CARPETA:controllers]
+
+
 
 ----------------------------------------------------------------------------------
 EL JWT EMPIEZA EL PASO A PASO [FILE:generate.JWT.js] [CARPETA:helpers] //FUNCIONAL

@@ -33,7 +33,7 @@ const login = async (req, res=response)=>{ //agregamos el res=response
                 })
             }
 
-            //9.Validacion JSONWEBTOKEN (8.viene de generate.JWT.js)
+            //9.Validacion JSONWEBTOKEN (8.viene de generate.JWT.js) //FIN PASO A PASO
             const token = await generateJWT(usuario.id)
 
             res.json({

@@ -31,11 +31,11 @@ const UsuarioSchema = Schema({
         type:Boolean,
         default: true
     },
-    categorias: {
+   /*  categorias: {
         type: Schema.Types.ObjectId,
         ref: 'categorias',
         required: true
-    }
+    } */
 });
 
 module.exports = model('usuarios', UsuarioSchema);

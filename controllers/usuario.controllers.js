@@ -58,25 +58,23 @@ const deleteUsers = async (req, res)=>{
 }
 
 const putUsers = async (req, res)=>{
-  /* 1- http put ini*/
+    /* JWT VALIDACIONES PASO A PASO */
+    /* 1.destructuramos de los parametros de la request el id */
     const { id } = req.params;
-    //Extraigo lo que NO necesito que se registre en MONGODB
-    // incluyendo el object _id de mongodb
+   /* 2.Extraigo lo que no necesito que se registre en MONGODB */
     const { _id, password, googleSignIn, ...resto } = req.body;
 
+    /* 3. Encriptar la contraseña */
     if ( password ) {
-        // Encriptar la contraseña
         const salt = bcryptjs.genSaltSync();
         resto.password = bcryptjs.hashSync( password, salt );
     }
-    //Busca documento por el id y actualiza lo deseado(resto) de la coleccion.
     const usuario = await Usuario.findByIdAndUpdate( id, resto, {new:true});
 
     res.json({
         msg:"Usuario Actualizado",
         usuario : usuario
     });
-     /* 1- http put fin */
 }
 
 const patchUsers = (req, res)=>{

@@ -3,8 +3,6 @@ const {check} = require('express-validator');
 const { validateDocuments } = require('../middlewares/validate.documents.js');
 const { validateJWT } = require('../middlewares/validate.jwt.js');
 const { isAdminRole } = require('../middlewares/validate.role.js');
-// 5. se importA validador de rol desde helpers
-//10.  se importa validador de emailExiste
 const { isValidRole, emailExiste, userExistsById } = require('../helpers/db.validators.js');
 const { getUsers, 
         postUsers, 
@@ -21,38 +19,28 @@ router.post("/",[
         check('nombre', 'Nombre no es valido').not().isEmpty(),
         check('password', 'Password debe ser de minimo 6 letras').isLength({min :6}),
         check('email', 'El email no es valido').isEmail(),
-        //9. middleware y express validator si emailExiste
+        /* 9. midlleware  y express validator si emailExiste */ // viene de file:[db.validator.js] carpeta:[helpers]
         check('email').custom(emailExiste ),
-        /* check('rol', 'No es un rol valido').isIn(['ADMIN', 'USER']), */
-        
-        //4.  Invocamos funcion validar de rol (cuerpo trasladado a helpers)
+        /*8. Invocamos funcion validar de rol (se encuentra en helpers el isValidRole) */ //vamos al file:[db.validator.js] carpeta:[helpers]
         check('rol').custom(isValidRole),
         validateDocuments
 ] ,postUsers);
-//18. Agrego :id a endpoint delete
 router.delete("/:id", [
-//23. Se Crea nuevo Middleware "validate.JWT" en carpeta, para evitar que 
-//se ejecute esta ruta borrar, sino existe un json web token valido
         validateJWT,
-//24. se crea Middleware validador de roles en carpeta, para evitar que
-//un usuario que intenta borrar, solo pueda si tiene rol de admin
-           isAdminRole,   
-//22. creamos middleware para chequear (copio desde put) para validar 
-//que sea un id Valido
-    check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom( userExistsById ),
-    validateDocuments
-], deleteUsers );
-//2. agregamos ID
-router.put("/:id",
-//3. agregamps express validator - Middlewares
-[
-        check('id', 'No es un ObjectID MongoDB válido').isMongoId(),
-        //13. agregamos validacion perzonalizada de usuario por ID
+        isAdminRole,   
+        check('id', 'No es un ID válido').isMongoId(),
+        /* 10. userExistsById lo llamamos de */ //file:[db.validator:js] carpeta:[helpers]
         check('id').custom( userExistsById ),
-        //16. copiamos validacion de rol desde metodo POST
+        validateDocuments
+], deleteUsers );
+
+/* 6. agregamos el id */ //venimos de el file:[usuario.controllers.js]
+router.put("/:id",
+[
+        /* 7. Agregamos los middlewares - express validator */  //vamos al post, se encuentra el 8.paso
+        check('id', 'No es un ObjectID MongoDB válido').isMongoId(),
+        check('id').custom( userExistsById ),
         check('rol').custom(isValidRole),
-       
         validateDocuments
     ], putUsers );
 router.patch("/", patchUsers);

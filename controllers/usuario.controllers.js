@@ -69,8 +69,11 @@ const putUsers = async (req, res)=>{
         const salt = bcryptjs.genSaltSync();
         resto.password = bcryptjs.hashSync( password, salt );
     }
+
+    /* 4. Busca documento por el id y actualiza lo deseado (resto) de la coleccion */
     const usuario = await Usuario.findByIdAndUpdate( id, resto, {new:true});
 
+    /* 5. Si todo se cumple manda el res.json a la respuesta */ //pasamos al file:[usuario.routes.js]
     res.json({
         msg:"Usuario Actualizado",
         usuario : usuario
